@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  critical-context-extractor:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: critical-context-extractor
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: development
+      GEMINI_API_KEY: ${GEMINI_API_KEY}
+      GEMINI_MODEL: ${GEMINI_MODEL:-gemini-2.5-flash-preview-04-17}
+      FHIR_BASE_URL: ${FHIR_BASE_URL:-https://hapi.fhir.org/baseR4}
+      MCP_SERVER_PORT: 3000
+      LOG_LEVEL: info
+      CACHE_STRATEGY: memory
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    restart: unless-stopped
+
+  # Optional: Redis for production caching
+  # redis:
+  #   image: redis:7-alpine
+  #   container_name: redis
+  #   ports:
+  #     - "6379:6379"
