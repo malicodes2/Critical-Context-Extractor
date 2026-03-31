@@ -1,4 +1,4 @@
-import { IncomingMessage, ServerResponse } from 'http';
+import { ServerResponse } from 'http';
 import { ILogger } from '../../domain/interfaces/ILogger';
 
 /**

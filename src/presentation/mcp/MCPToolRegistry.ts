@@ -16,7 +16,7 @@ export class MCPToolRegistry {
 
   constructor(private readonly _logger: ILogger) {}
 
-  register(tool: ToolDefinition, server: McpServer): void {
+  register(tool: ToolDefinition, _server: McpServer): void {
     if (this._registry.has(tool.name)) {
       this._logger.warn('Tool already registered — skipping duplicate', {
         tool: tool.name,
