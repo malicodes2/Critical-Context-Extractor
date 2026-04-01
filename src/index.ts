@@ -5,7 +5,6 @@ import { FHIRClient } from './infrastructure/fhir/FHIRClient';
 import { FHIRPatientRepository } from './infrastructure/fhir/FHIRPatientRepository';
 import { FHIRResourceMapper } from './infrastructure/fhir/FHIRResourceMapper';
 import { GeminiClient } from './infrastructure/llm/GeminiClient';
-import { InMemoryCacheStrategy } from './infrastructure/cache/InMemoryCacheStrategy';
 import { StructuredLogger } from './infrastructure/logging/StructuredLogger';
 
 const PORT = parseInt(process.env['MCP_SERVER_PORT'] ?? '3000', 10);
@@ -25,7 +24,6 @@ async function main(): Promise<void> {
   // Wire up infrastructure
   const fhirClient = new FHIRClient({ baseUrl: FHIR_BASE_URL });
   const mapper = new FHIRResourceMapper();
-  const _cache = new InMemoryCacheStrategy();
   const patientRepo = new FHIRPatientRepository(fhirClient, mapper, logger);
   const llmClient = new GeminiClient(GEMINI_API_KEY, logger, GEMINI_MODEL);
 

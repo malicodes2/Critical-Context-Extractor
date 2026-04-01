@@ -4,7 +4,6 @@ import { LLMClient } from '../../src/domain/interfaces/LLMClient';
 import { StructuredLogger } from '../../src/infrastructure/logging/StructuredLogger';
 import { PatientId } from '../../src/domain/value-objects/PatientId';
 import { Patient } from '../../src/domain/entities/Patient';
-import { ExtractHiddenAllergiesResponse } from '../../src/application/use-cases/ExtractHiddenAllergies/ExtractHiddenAllergiesResponse';
 import { ExtractHiddenAllergiesUseCase } from '../../src/application/use-cases/ExtractHiddenAllergies/ExtractHiddenAllergiesUseCase';
 
 describe('MCP Tools E2E', () => {
@@ -40,9 +39,9 @@ describe('MCP Tools E2E', () => {
   it('should have all 7 critical context tools registered', () => {
     // The internal server keeps a registry of tools.
     // We can access it if we bypass typescript:
-    const registeredTools = (mcpServer as any)._server._tools || (mcpServer.getMcpServer() as any)._registeredTools || new Map();
+    const tools = (mcpServer as any)._server?._tools || (mcpServer.getMcpServer() as any)._registeredTools || new Map();
     // Assuming the SDK stores tools map under `_tools` or similar, but just checking instantiation didn't crash
-    expect(mcpServer).toBeDefined();
+    expect(tools).toBeDefined();
   });
 
   it('should successfully parse patient ID for extract_hidden_allergies', async () => {

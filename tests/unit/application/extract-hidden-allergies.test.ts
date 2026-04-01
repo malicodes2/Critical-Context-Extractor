@@ -1,6 +1,5 @@
 import { ExtractHiddenAllergiesUseCase } from '../../../src/application/use-cases/ExtractHiddenAllergies/ExtractHiddenAllergiesUseCase';
 import { Patient } from '../../../src/domain/entities/Patient';
-import { PatientId } from '../../../src/domain/value-objects/PatientId';
 import { ClinicalNote } from '../../../src/domain/entities/ClinicalNote';
 import { Allergy } from '../../../src/domain/entities/Allergy';
 import { PatientRepository } from '../../../src/domain/interfaces/PatientRepository';
