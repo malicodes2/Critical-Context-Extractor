@@ -1,7 +1,9 @@
+import { FHIRResourceError } from '../../shared/errors/FHIRResourceError';
+
 /**
  * Exponential backoff retry strategy with jitter for FHIR API calls.
  */
-const MAX_RETRY_ATTEMPTS = 3;
+const MAX_RETRY_ATTEMPTS = 4;
 const BASE_DELAY_MS = 500;
 const MAX_DELAY_MS = 10000;
 
@@ -25,6 +27,9 @@ export async function withRetry<T>(
     try {
       return await operation();
     } catch (err) {
+      if (err instanceof FHIRResourceError && err.statusCode && err.statusCode >= 400 && err.statusCode < 500) {
+        throw err;
+      }
       lastError = err instanceof Error ? err : new Error(String(err));
 
       if (attempt === maxAttempts) break;

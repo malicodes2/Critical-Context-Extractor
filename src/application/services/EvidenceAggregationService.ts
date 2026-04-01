@@ -41,7 +41,7 @@ export class EvidenceAggregationService {
         type: 'finding',
         description: finding.alertMessage,
         alertLevel: finding.alertLevel as AlertLevelValue,
-        sources: finding.evidence,
+        sources: [],
         timestamp: finding.date,
       });
     }
@@ -58,7 +58,7 @@ export class EvidenceAggregationService {
       if (seen.has(normalizedKey)) {
         // Escalate if undocumented version found
         const existing = seen.get(normalizedKey)!;
-        if (!allergy.inAllergyList) {
+        if (allergy.source !== 'allergy-list') {
           existing.alertLevel = AlertLevelValue.CRITICAL;
           existing.description = `${allergy.substance} allergy in notes but not in allergy list`;
         }
